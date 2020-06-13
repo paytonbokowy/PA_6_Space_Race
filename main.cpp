@@ -13,13 +13,14 @@ int main(int argc, char const* argv[])
     sf::Font font;
     font.loadFromFile("Tuffy.ttf");
 
+    //Create title
     sf::Text Title("", font);
     Title.setFont(font);
     Title.setString("*** Space Race ***");
     Title.setCharacterSize(30);
     Title.setFillColor(sf::Color::White);
     Title.setPosition(175, 50);
-
+    //Create Rules
     sf::Text Rules("", font);
     Rules.setFont(font);
     Rules.setString("\t2 players will race through the asteroids\nWhoever gets through safely the most times\n\t\t\tbefore the timer runs out wins!");
@@ -57,64 +58,37 @@ int main(int argc, char const* argv[])
     sf::RectangleShape divider(sf::Vector2f(5, 800));
     divider.setFillColor(sf::Color::White);
     divider.setPosition(300, 0);
-
+    //Sets a clock
     sf::Clock clock;
-    int countdown = 30;
-
+    int countdown = 30; //sets countdown to 30
+    //sets the text for the timer
     sf::Text timerText;
     timerText.setFont(font);
     timerText.setString(std::to_string(countdown));
     timerText.setPosition(550, 0);
     timerText.setCharacterSize(30);
-
+    //Creates the winner
     sf::Text Winner("", font);
     Winner.setFont(font);
     Winner.setString("");
     Winner.setCharacterSize(40);
     Winner.setFillColor(sf::Color::White);
     Winner.setPosition(200, 100);
-
+    //While the window is open...
     while (window.isOpen())
     {
         //Get ball and Player coordinates
         sf::Vector2f player1_pos = player1.getPosition();
         sf::Vector2f player2_pos = player2.getPosition();
 
-        //Detect collisions for player1
-        /*if (player1_pos.x < 0)
-        {
-            dx = speed;
-        }
-        else if (player1_pos.x > 600 - 10)
-        {
-            dx = -speed;
-        }
-        if (player1_pos.y < 0)
-        {
-            dy = speed;
-        }
-        else if (player1_pos.y > 700 - 10) 
-        {
-            dy = 0;
-            dx = 0;
-        }
-        if (player1_pos.x >= debris.x && player1_pos.x <= debris.x + 40)
-        {
-            if (player1_pos.y >= debris.y - 10) {
-                score1++;
-                text1.setString(std::to_string(score1));
-                dy = -speed;
-            }
-        }*/
-
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
         {
             player1.move(0, -5); //moves player 1 up to the top
             if (player1_pos.y == 0) //if player 1 hits the top of the screen
             {
-                player1.setPosition(150, 550);
-                score1++;
-                text1.setString(std::to_string(score1));
+                player1.setPosition(150, 550); //resets player 1
+                score1++; //score increases
+                text1.setString(std::to_string(score1)); //changes the score on the screen
             }
         }
         else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
@@ -122,7 +96,7 @@ int main(int argc, char const* argv[])
             player1.move(0, 5); //moves player 1 down the screen
             if (player1_pos.y > 550) //if player 1 hits the bottom of the screen
             {
-                player1.setPosition(150, 550);
+                player1.setPosition(150, 550); //resets player 1
             }
         }
 
@@ -131,9 +105,9 @@ int main(int argc, char const* argv[])
             player2.move(0, -5); //moves player 2 up the screen
             if (player2_pos.y == 0) //if player 2 hits the top of the screen
             {
-                player2.setPosition(450, 550);
-                score2++;
-                text2.setString(std::to_string(score2));
+                player2.setPosition(450, 550); //resets player 2
+                score2++; //increases score
+                text2.setString(std::to_string(score2)); //updates player 2 score to the screen
             }
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::K))
@@ -141,11 +115,11 @@ int main(int argc, char const* argv[])
             player2.move(0, 5); //moves player 2 down the screen
             if (player2_pos.y > 550) //if player 2 hits the bottom of the screen
             {
-                player2.setPosition(450, 550);
+                player2.setPosition(450, 550); //resets player 2
             }
         }
 
-        int timer = clock.getElapsedTime().asSeconds();
+        int timer = clock.getElapsedTime().asSeconds(); //get the time in seconds
 
         if (countdown == 0)
         {
@@ -165,16 +139,16 @@ int main(int argc, char const* argv[])
             }
             end = true;
         }
-        else if (countdown < 0)
+        else if (countdown < 0) //just in case timer keeps running
         {
             timerText.setString("End");
         }
 
         if (timer > 0)
         {
-            countdown--;
-            timerText.setString(std::to_string(countdown));
-            clock.restart();
+            countdown--; //decrease the coutdown
+            timerText.setString(std::to_string(countdown)); //update the timer on the screen
+            clock.restart(); //returns the time that has elapsed
         }
 
         sf::Event event;
@@ -187,11 +161,12 @@ int main(int argc, char const* argv[])
         {
             window.clear();
             window.draw(Title);
-            window.draw(Rules);
+            window.draw(Rules); //display rules and title for the first time
             window.display();
             Sleep(5000);
             first_time = false;
         }
+        //renders all the objects to the screen
         window.clear();
         window.draw(player1);
         window.draw(player2);
@@ -201,7 +176,7 @@ int main(int argc, char const* argv[])
         window.draw(timerText);
         window.display();
         
-        if (end == true)
+        if (end == true) //displays the winner if it is the end of the game
         {
             window.clear();
             window.draw(Winner);

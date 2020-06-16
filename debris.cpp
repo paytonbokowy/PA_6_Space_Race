@@ -16,6 +16,7 @@ debris_struct* Debris::get_first_debris()
 
 void Debris::createDebris() //just ideas right now... not sure how to implement it yet
 {
+    int rand_x = 0, rand_y = 0;
     srand(time(NULL));
     //create the debris balls
     for (int i = 0; i < NUM_ASTROIDS; i++)//iteratea 30 times
@@ -24,8 +25,12 @@ void Debris::createDebris() //just ideas right now... not sure how to implement 
         //randomnize where the debris starts at and the speed
         int y_cord = rand() % 700;
         int x_cord = rand() % 600;
-        int rand_x = rand() % 6 + (-3);
-        int rand_y = rand() % 6 + (-3);
+        do
+        {
+            rand_x = rand() % 6 + (-3);
+            rand_y = rand() % 6 + (-3);
+        } while (rand_x == 0 || rand_y == 0);
+
         //make object
         sf::CircleShape obj(5.f);
         obj.setFillColor(sf::Color::Green);
@@ -33,20 +38,6 @@ void Debris::createDebris() //just ideas right now... not sure how to implement 
         //set values in struct
         d_struct[i] = { x_cord,y_cord,rand_x ,rand_y,obj };
     }
-}
-
-bool Debris::isOffScreen(sf::CircleShape debris)
-{
-    sf::Vector2f debris_pos = debris.getPosition();
-    if (debris_pos.x < 0 || debris_pos.x > 600 - 5)
-        return true;
-    else
-        return false;
-
-    if (debris_pos.y < 0 || debris_pos.y > 700 - 5)
-        return true;
-    else
-        return false;
 }
 
 bool Debris::hitPlayer(sf::CircleShape debris, sf::CircleShape player)

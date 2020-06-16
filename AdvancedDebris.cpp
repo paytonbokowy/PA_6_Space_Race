@@ -11,6 +11,7 @@ Advanced::Advanced(sf::RenderWindow* w)
 
 void Advanced::createDebris() //just ideas right now... not sure how to implement it yet
 {
+    int rand_x = 0, rand_y = 0;
     srand(time(NULL));
     //create the debris balls
     for (int i = 0; i < NUM_ADVANCED; i++)//iteratea 30 times
@@ -19,10 +20,13 @@ void Advanced::createDebris() //just ideas right now... not sure how to implemen
         //randomnize where the debris starts at and the speed
         int y_cord = rand() % 700;
         int x_cord = rand() % 600;
-        int rand_x = rand() % 8 + (-3);
-        int rand_y = rand() % 8 + (-3);
+        do
+        {
+            rand_x = rand() % 8 + (-3);
+            rand_y = rand() % 8 + (-3);
+        } while (rand_x == 0 || rand_y == 0);
         //make object
-        sf::CircleShape obj(5.f);
+        sf::CircleShape obj(7.f);
         obj.setFillColor(sf::Color::Yellow);
         obj.setPosition(x_cord, y_cord);
         //set values in struct

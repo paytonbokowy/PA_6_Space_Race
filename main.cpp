@@ -1,13 +1,14 @@
 #include "header.h"
 
-int main(int argc, char const* argv[])
+int main()
 {
     int score1 = 0, score2 = 0;
     float dx = 0.0, dy = 0.0, speed = 5;
     bool first_time = true, end = false;
     //Create Window
-    sf::RenderWindow window(sf::VideoMode(600, 700), "Space Race SFML C++");
+    sf::RenderWindow window(sf::VideoMode(600, 700), "Space Race SFML C++", sf::Style::Resize);
     window.setFramerateLimit(30);
+    window.setActive(false);
 
     //Create Font (display score)
     sf::Font font;
@@ -20,10 +21,11 @@ int main(int argc, char const* argv[])
     Title.setCharacterSize(30);
     Title.setFillColor(sf::Color::White);
     Title.setPosition(175, 50);
+
     //Create Rules
     sf::Text Rules("", font);
     Rules.setFont(font);
-    Rules.setString("\t2 players will race through the asteroids\nWhoever gets through safely the most times\n\t\t\tbefore the timer runs out wins!");
+    Rules.setString("\t2 players will race through the asteroids\nWhoever gets through safely the most times\n\t\t\tbefore the timer runs out wins!\n\n\t\t\tPlayer 1: W - up S - down\n\t\t\tPlayer 2: I - up K - down");
     Rules.setCharacterSize(30);
     Rules.setFillColor(sf::Color::White);
     Rules.setPosition(10, 100);
@@ -54,19 +56,25 @@ int main(int argc, char const* argv[])
     player2.setFillColor(sf::Color::Red);
     player2.setPosition(450, 550);
 
+    sf::CircleShape d(5.f);
+    d.setFillColor(sf::Color::White);
+    d.setPosition(350, 550);
+
     //creates the line to divide the screen
     sf::RectangleShape divider(sf::Vector2f(5, 800));
     divider.setFillColor(sf::Color::White);
     divider.setPosition(300, 0);
-    //Sets a clock
-    sf::Clock clock;
+
+    sf::Clock clock; //Sets a clock
     int countdown = 30; //sets countdown to 30
+
     //sets the text for the timer
     sf::Text timerText;
     timerText.setFont(font);
     timerText.setString(std::to_string(countdown));
     timerText.setPosition(550, 0);
     timerText.setCharacterSize(30);
+
     //Creates the winner
     sf::Text Winner("", font);
     Winner.setFont(font);
@@ -74,9 +82,17 @@ int main(int argc, char const* argv[])
     Winner.setCharacterSize(40);
     Winner.setFillColor(sf::Color::White);
     Winner.setPosition(200, 100);
+
+    Debris debris = Debris(&window);
+    debris_struct* first_debri;
+    debris.createDebris();
+    first_debri = debris.get_first_debri();//return first element in array of debris
     //While the window is open...
+    int p1Reset, p2Reset;
     while (window.isOpen())
     {
+        sf::Vector2f d_pos = d.getPosition();
+
         //Get ball and Player coordinates
         sf::Vector2f player1_pos = player1.getPosition();
         sf::Vector2f player2_pos = player2.getPosition();
@@ -91,7 +107,7 @@ int main(int argc, char const* argv[])
                 text1.setString(std::to_string(score1)); //changes the score on the screen
             }
         }
-        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
         {
             player1.move(0, 5); //moves player 1 down the screen
             if (player1_pos.y > 550) //if player 1 hits the bottom of the screen
@@ -100,7 +116,7 @@ int main(int argc, char const* argv[])
             }
         }
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::I))
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::I))
         {
             player2.move(0, -5); //moves player 2 up the screen
             if (player2_pos.y == 0) //if player 2 hits the top of the screen
@@ -166,6 +182,7 @@ int main(int argc, char const* argv[])
             Sleep(5000);
             first_time = false;
         }
+
         //renders all the objects to the screen
         window.clear();
         window.draw(player1);
@@ -174,8 +191,32 @@ int main(int argc, char const* argv[])
         window.draw(text1);
         window.draw(text2);
         window.draw(timerText);
+
+        for (int i = 0;i < NUM_ASTROIDS;i++) {//for loop to render all the astroids
+            window.draw((*(first_debri + i)).obj);
+
+            (*(first_debri + i)).x_cor += (*(first_debri + i)).x_speed;//increment postions
+            (*(first_debri + i)).y_cor += (*(first_debri + i)).y_speed;
+            (*(first_debri + i)).obj.setPosition((*(first_debri + i)).x_cor, (*(first_debri + i)).y_cor);
+            debris.check_cord(player1, player2, &p1Reset, &p2Reset);
+        }
+        //to check if the player was hit
+        if (p1Reset == 1) 
+        {
+            p1Reset -= 1;
+            score1 -= 1;
+            text1.setString(std::to_string(score1));
+            player1.setPosition(150, 550);//change player position
+        }
+        if (p2Reset == 1) 
+        {
+            p2Reset -= 1;//so the var can be used later on
+            score2 -= 1;
+            text2.setString(std::to_string(score2));
+            player2.setPosition(450, 550);
+        }       
         window.display();
-        
+
         if (end == true) //displays the winner if it is the end of the game
         {
             window.clear();
@@ -184,7 +225,6 @@ int main(int argc, char const* argv[])
             Sleep(10000);
             window.close();
         }
-    } 
-
+    }
     return 0;
 }

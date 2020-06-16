@@ -4,6 +4,16 @@ Debris::Debris(sf::RenderWindow* w)
     window = w;//inits the window in the class
 }
 
+Debris::Debris()
+{
+
+}
+
+debris_struct* Debris::get_first_debris()
+{
+    return d_struct;
+}
+
 void Debris::createDebris() //just ideas right now... not sure how to implement it yet
 {
     srand(time(NULL));
@@ -53,11 +63,6 @@ bool Debris::hitPlayer(sf::CircleShape debris, sf::CircleShape player)
         return false;
 }
 
-Debris::~Debris()
-{
-
-}
-
 void Debris::check_cord(sf::CircleShape player1, sf::CircleShape player2, int* p1Reset, int* p2Reset) {
 
     //loop to see if an astroid si out of bounds or hits a player
@@ -83,4 +88,9 @@ void Debris::check_cord(sf::CircleShape player1, sf::CircleShape player2, int* p
             break;
         }
     }
+}
+
+Debris::~Debris()
+{
+
 }

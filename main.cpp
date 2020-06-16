@@ -1,8 +1,8 @@
 #include "header.h"
-
+#include "AdvancedDebris.h"
 int main()
 {
-    int score1 = 0, score2 = 0;
+    int score1 = 0, score2 = 0, p1Reset = 0, p2Reset = 0;
     float dx = 0.0, dy = 0.0, speed = 5;
     bool first_time = true, end = false;
     //Create Window
@@ -56,10 +56,6 @@ int main()
     player2.setFillColor(sf::Color::Red);
     player2.setPosition(450, 550);
 
-    sf::CircleShape d(5.f);
-    d.setFillColor(sf::Color::White);
-    d.setPosition(350, 550);
-
     //creates the line to divide the screen
     sf::RectangleShape divider(sf::Vector2f(5, 800));
     divider.setFillColor(sf::Color::White);
@@ -86,13 +82,17 @@ int main()
     Debris debris = Debris(&window);
     debris_struct* first_debri;
     debris.createDebris();
-    first_debri = debris.get_first_debri();//return first element in array of debris
-    //While the window is open...
-    int p1Reset, p2Reset;
+    first_debri = debris.get_first_debris();//return first element in array of debris
+    //creates advanced debris
+    Advanced advanced = Advanced(&window);
+    debris_struct* advanced_d;
+    advanced.createDebris();
+    advanced_d = advanced.get_first_debris();
+
+   //While the window is open...
     while (window.isOpen())
     {
-        sf::Vector2f d_pos = d.getPosition();
-
+     
         //Get ball and Player coordinates
         sf::Vector2f player1_pos = player1.getPosition();
         sf::Vector2f player2_pos = player2.getPosition();
@@ -192,7 +192,8 @@ int main()
         window.draw(text2);
         window.draw(timerText);
 
-        for (int i = 0;i < NUM_ASTROIDS;i++) {//for loop to render all the astroids
+        for (int i = 0;i < NUM_ASTROIDS;i++) 
+        {//for loop to render all the astroids
             window.draw((*(first_debri + i)).obj);
 
             (*(first_debri + i)).x_cor += (*(first_debri + i)).x_speed;//increment postions
@@ -200,6 +201,17 @@ int main()
             (*(first_debri + i)).obj.setPosition((*(first_debri + i)).x_cor, (*(first_debri + i)).y_cor);
             debris.check_cord(player1, player2, &p1Reset, &p2Reset);
         }
+
+        for (int i = 0;i < NUM_ADVANCED;i++) 
+        {//for loop to render all the advanced astroids
+            window.draw((*(advanced_d + i)).obj);
+
+            (*(advanced_d + i)).x_cor += (*(advanced_d + i)).x_speed;//increment postions
+            (*(advanced_d + i)).y_cor += (*(advanced_d + i)).y_speed;
+            (*(advanced_d + i)).obj.setPosition((*(advanced_d + i)).x_cor, (*(advanced_d + i)).y_cor);
+            advanced.check_cord(player1, player2, &p1Reset, &p2Reset);
+        }
+
         //to check if the player was hit
         if (p1Reset == 1) 
         {

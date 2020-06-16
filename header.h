@@ -1,7 +1,6 @@
 #ifndef HEADER_H
 #define HEADER_H
 #define NUM_ASTROIDS 40
-#define NUM_FAST_ASTROIDS 10
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include<string>
@@ -24,10 +23,11 @@ private:
 	sf::RenderWindow* window;
 	debris_struct d_struct[NUM_ASTROIDS];
 public:
-	void check_cord(sf::CircleShape player1, sf::CircleShape player2, int* p1Reset, int* p2Reset);
-	debris_struct* get_first_debri() { return d_struct; }
+	Debris();
 	Debris(sf::RenderWindow* w);
-	void createDebris();
+	virtual void createDebris();
+	virtual void check_cord(sf::CircleShape player1, sf::CircleShape player2, int* p1Reset, int* p2Reset);
+	virtual debris_struct* get_first_debris();
 	bool isOffScreen(sf::CircleShape);
 	bool hitPlayer(sf::CircleShape debris, sf::CircleShape player);
 	~Debris();

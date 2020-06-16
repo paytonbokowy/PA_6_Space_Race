@@ -1,7 +1,8 @@
 #include "AdvancedDebris.h"
-
 Advanced::Advanced()
 {
+    window->getDefaultView();
+    a_struct[NUM_ADVANCED] = { 0 };
 }
 
 Advanced::Advanced(sf::RenderWindow* w)
@@ -64,4 +65,9 @@ void Advanced::check_cord(sf::CircleShape player1, sf::CircleShape player2, int*
             break;
         }
     }
+}
+
+Advanced::~Advanced()
+{
+
 }

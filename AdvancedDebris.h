@@ -12,4 +12,5 @@ public:
 	virtual void createDebris();
 	virtual debris_struct* get_first_debris();
 	virtual void check_cord(sf::CircleShape player1, sf::CircleShape player2, int* p1Reset, int* p2Reset);
+	~Advanced();
 };

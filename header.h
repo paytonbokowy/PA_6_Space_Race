@@ -1,6 +1,6 @@
 #ifndef HEADER_H
 #define HEADER_H
-#define NUM_ASTROIDS 40
+#define NUM_ASTROIDS 30
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include<string>

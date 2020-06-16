@@ -1,12 +1,13 @@
 #include "header.h"
+Debris::Debris()
+{
+    window->getDefaultView();
+    this->d_struct[NUM_ASTROIDS] = { 0 };
+}
+
 Debris::Debris(sf::RenderWindow* w)
 {
     window = w;//inits the window in the class
-}
-
-Debris::Debris()
-{
-
 }
 
 debris_struct* Debris::get_first_debris()
@@ -83,5 +84,5 @@ void Debris::check_cord(sf::CircleShape player1, sf::CircleShape player2, int* p
 
 Debris::~Debris()
 {
-
+    window->close();
 }

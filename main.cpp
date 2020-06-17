@@ -1,3 +1,11 @@
+/*******************************************************************************************
+* Programmer: Payton Bokowy, Kareena Kothari, Apollo Callero, Yuxin Wang                   *
+* Class: CptS 122, Summer 2020; Lab Section 1                                              *
+* Programming Assignment: PA 6                                                             *
+* Date: June 17, 2020																	   *
+* Description: Space Race Game														       *
+*******************************************************************************************/
+
 #include "header.h"
 #include "AdvancedDebris.h"
 int main()

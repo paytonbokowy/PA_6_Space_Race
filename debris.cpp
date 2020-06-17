@@ -1,8 +1,8 @@
 #include "header.h"
+
 Debris::Debris()
 {
-    window->getDefaultView();
-    this->d_struct[NUM_ASTROIDS] = { 0 };
+ 
 }
 
 Debris::Debris(sf::RenderWindow* w)

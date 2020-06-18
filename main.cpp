@@ -224,15 +224,11 @@ int main()
         if (p1Reset == 1) 
         {
             p1Reset -= 1;
-            score1 -= 1;
-            text1.setString(std::to_string(score1));
             player1.setPosition(150, 550);//change player position
         }
         if (p2Reset == 1) 
         {
             p2Reset -= 1;//so the var can be used later on
-            score2 -= 1;
-            text2.setString(std::to_string(score2));
             player2.setPosition(450, 550);
         }       
         window.display();

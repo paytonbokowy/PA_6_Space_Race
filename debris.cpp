@@ -2,7 +2,7 @@
 
 Debris::Debris()
 {
- 
+    
 }
 
 Debris::Debris(sf::RenderWindow* w)
@@ -28,8 +28,8 @@ void Debris::createDebris() //just ideas right now... not sure how to implement 
         int x_cord = rand() % 600;
         do
         {
-            rand_x = rand() % 6 + (-3);
-            rand_y = rand() % 6 + (-3);
+            rand_x = rand() % 5 + (-3);
+            rand_y = rand() % 5 + (-3);
         } while (rand_x == 0 || rand_y == 0);
 
         //make object

@@ -1,6 +1,5 @@
 #include "AdvancedDebris.h"
 
-
 Advanced::Advanced(sf::RenderWindow* w)
 {
 	window = w;
@@ -62,5 +61,3 @@ void Advanced::check_cord(sf::CircleShape player1, sf::CircleShape player2, int*
         }
     }
 }
-
-
